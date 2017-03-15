@@ -9,6 +9,9 @@
 <title>Message List</title>
 </head>
 <body>
+<a href="<c:url value="/login.jsp" />">Login</a>
+<a href="<c:url value="/j_spring_security_logout" />">Logout</a>
+<br/>
 	<c:forEach items="${messages}" var="message">
 		<table border="1">
 			<tr>
