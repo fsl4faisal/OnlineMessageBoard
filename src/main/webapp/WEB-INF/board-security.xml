@@ -20,17 +20,22 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<logout />
 	</http>
 
-	<!-- for access decision manager -->	
+	<global-method-security secured-annotations="enabled"
+		access-decision-manager-ref="accessDecisionManager" />
+
+
+	<!-- for access decision manager -->
 	<beans:bean id="accessDecisionManager"
-      class="org.springframework.security.access.vote.AffirmativeBased">
-      <beans:property name="decisionVoters">
-         <beans:list>
-             <beans:bean class="org.springframework.security.access.vote.RoleVoter" />
-             <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-             <beans:bean class="com.faisal.board.security.IpAddressVoter"/>
-          </beans:list>
-       </beans:property>
-    </beans:bean>
+		class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter" />
+				<beans:bean
+					class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				<beans:bean class="com.faisal.board.security.IpAddressVoter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 
 
 
