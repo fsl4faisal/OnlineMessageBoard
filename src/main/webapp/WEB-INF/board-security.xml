@@ -9,10 +9,10 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		/> <intercept-url pattern="/messagePost*" access="ROLE_USER"/> <intercept-url 
 		pattern="/messageDelete*" access="ROLE_ADMIN" /> </http> -->
 
-	<http>
+	<http access-decision-manager-ref="accessDecisionManager">
 		<intercept-url pattern="/messageList*" access="ROLE_USER,ROLE_GUEST" />
 		<intercept-url pattern="/messagePost*" access="ROLE_USER" />
-		<intercept-url pattern="/messageDelete*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/messageDelete*" access="ROLE_ADMIN,IP_LOCAL_HOST" />
 		<anonymous username="guest" granted-authority="ROLE_GUEST" />
 		<form-login login-page="/login.jsp" default-target-url="/messageList"
 			authentication-failure-url="/login.jsp?error=true" />
@@ -20,15 +20,26 @@ http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 		<logout />
 	</http>
 
-			<!-- used when we need hard coding 
-			<user-service>
-				<user name="faisal" password="faisal" authorities="ROLE_ADMIN,ROLE_USER" />
-			</user-service>
-			-->
+	<!-- for access decision manager -->	
+	<beans:bean id="accessDecisionManager"
+      class="org.springframework.security.access.vote.AffirmativeBased">
+      <beans:property name="decisionVoters">
+         <beans:list>
+             <beans:bean class="org.springframework.security.access.vote.RoleVoter" />
+             <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+             <beans:bean class="com.faisal.board.security.IpAddressVoter"/>
+          </beans:list>
+       </beans:property>
+    </beans:bean>
+
+
+
+	<!-- used when we need hard coding <user-service> <user name="faisal" password="faisal" 
+		authorities="ROLE_ADMIN,ROLE_USER" /> </user-service> -->
 
 	<authentication-manager>
 		<authentication-provider>
-			 <jdbc-user-service data-source-ref="dataSource"/>
+			<jdbc-user-service data-source-ref="dataSource" />
 		</authentication-provider>
 
 	</authentication-manager>

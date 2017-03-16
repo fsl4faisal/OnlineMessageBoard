@@ -24,8 +24,6 @@
 		destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
 		p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}" />
 
-
-
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 	</bean>
